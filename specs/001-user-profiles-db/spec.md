@@ -5,6 +5,13 @@
 **Status**: Draft  
 **Input**: User description: "Preciso de um banco de dados para armazenar dados de usuários de um aplicativo/jogo; O banco de dados deve conter informações simples(iinerentes ao login dele no app) do usuário para que ele possa ser registrado; o banco de dados também deve registrar informações da rotina do usuário com base nos pontos do mapa do jogo que ele frequenta para traçar perfis de usuário; perfis de usuário são agruapados por similaridade em seus pontos frequentados além de horário em que os locais foram frequentados;"
 
+## Clarifications
+
+### Session 2026-05-19
+
+- Q: Qual período de retenção de dados pessoais? → A: 1 ano para eventos de visita e dados derivados.
+- Q: Qual método de autenticação preferido? → A: Suportar credenciais locais (email/username + senha) e SSO (híbrido).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Registro e Login (Priority: P1)
