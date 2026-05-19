@@ -54,9 +54,9 @@
 
 ### Tests for User Story 1
 
-- [ ] T010 [P] [US1] Write Gherkin scenarios for player registration and login in `tests/functional/player_registration_login.feature`
-- [ ] T011 [P] [US1] Add unit tests for player account creation and authentication rules in `tests/unit/test_player_account.gd`
-- [ ] T012 [P] [US1] Add unit tests for the account repository persistence rules in `tests/unit/test_player_account_repository.gd`
+ - [ ] T010 [P] [US1] Write Gherkin scenarios for user registration and login in `tests/functional/user_registration_login.feature`
+ - [ ] T011 [P] [US1] Add unit tests for user account creation and authentication rules in `tests/unit/test_user_account.gd`
+ - [ ] T012 [P] [US1] Add unit tests for the account repository persistence rules in `tests/unit/test_user_repository.gd`
 - [ ] T013 [P] [US1] Add an integration test for the full registration and login flow in `tests/integration/test_registration_login_flow.gd`
 
 ### Implementation for User Story 1
@@ -78,7 +78,7 @@
 
 ### Tests for User Story 2
 
-- [ ] T018 [P] [US2] Write Gherkin scenarios for visit capture and history lookup in `tests/functional/player_visit_capture.feature`
+ - [ ] T018 [P] [US2] Write Gherkin scenarios for visit capture and history lookup in `tests/functional/user_visit_capture.feature`
 - [ ] T019 [P] [US2] Add unit tests for visit event validation and point matching in `tests/unit/test_visit_event.gd`
 - [ ] T020 [P] [US2] Add unit tests for visit repository queries, ordering, and idempotency in `tests/unit/test_visit_repository.gd`
 - [ ] T021 [P] [US2] Add an integration test for visit storage, period filtering, and consent rejection in `tests/integration/test_visit_capture_flow.gd`
@@ -171,9 +171,9 @@
 ## Parallel Example: User Story 1
 
 ```bash
-Task: "Write Gherkin scenarios for player registration and login in tests/functional/player_registration_login.feature"
-Task: "Add unit tests for player account creation and authentication rules in tests/unit/test_player_account.gd"
-Task: "Add unit tests for the account repository persistence rules in tests/unit/test_player_account_repository.gd"
+ Task: "Write Gherkin scenarios for user registration and login in tests/functional/user_registration_login.feature"
+ Task: "Add unit tests for user account creation and authentication rules in tests/unit/test_user_account.gd"
+ Task: "Add unit tests for the account repository persistence rules in tests/unit/test_user_repository.gd"
 Task: "Add an integration test for the full registration and login flow in tests/integration/test_registration_login_flow.gd"
 ```
 

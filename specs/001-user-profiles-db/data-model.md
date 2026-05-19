@@ -51,11 +51,6 @@
 - `created_at`: creation timestamp
 - `updated_at`: last update timestamp
 
-## Relationships
-- One `User` has many `VisitEvent` records.
-- One `Point` has many `VisitEvent` records.
-- One `User` has zero or one current `UserProfile`, with history stored through recomputation snapshots if required.
-- One `ProfileGroup` contains many `UserProfile` records.
 
 ## Validation Rules
 - A PlayerAccount must exist before VisitEvent insertion.
@@ -66,9 +61,9 @@
 - `activity_score` and similarity values are derived data and must be recomputable from VisitEvent history.
 
 ## State Transitions
-- PlayerAccount: active -> suspended -> deleted
-- RoutineProfile: pending -> generated -> stale -> regenerated
-- ProfileCluster: created -> updated -> retired
+- User: active -> suspended -> deleted
+- UserProfile: pending -> generated -> stale -> regenerated
+- ProfileGroup: created -> updated -> retired
 
 ## Archive Schema (`visits_archive`)
 
