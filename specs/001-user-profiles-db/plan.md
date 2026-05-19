@@ -30,6 +30,8 @@ Status: PASS
 - Tests-before-code and compile/analyze-before-tests: satisfied by the planned workflow and quickstart validation steps.
 - User-facing testing and edge-case coverage: satisfied by the spec stories and acceptance scenarios already captured.
 
+Required gate (enforced): Before any test task runs, CI/local workflow MUST execute the pre-test compilation/static-analysis step and enforce the coverage policy (100% for unit tests). See tasks T039 and T040 in `tasks.md` for concrete tasks. This is a constitution-level enforcement and blocks test execution until satisfied.
+
 ## Project Structure
 
 ### Documentation (this feature)
@@ -71,11 +73,25 @@ tests/
 
 **Structure Decision**: Use a single Godot project with a layered GDScript architecture. The `src/domain` layer owns entities and business rules, `src/application` orchestrates use cases, `src/infrastructure` handles SQLite persistence, `addons/sqlite` hosts the database integration, and `tests/` keeps unit, integration, and functional tests outside production code.
 
+**Terminology mapping**: To avoid drift between spec and implementation, use the following canonical terms in code and tasks:
+
+- `User` == spec's `User` (files: `src/domain/entities/user.gd`, repository: `sqlite_user_repository.gd`)
+- `Point` == spec's `Point` (files: `src/domain/entities/point.gd`)
+- `UserProfile` == spec's `UserProfile` (files: `src/domain/entities/user_profile.gd`)
+- `ProfileGroup` == spec's `ProfileGroup` (files: `src/domain/entities/profile_group.gd`)
+
+Implementations or adapters may use alternate local names internally, but all public repository interfaces, tests and documentation must use the canonical terms above.
+
 ## Phase 0 Research Outputs
 
 - Use embedded SQLite rather than an external API for v1 because it keeps the system local-first, compatible with Godot, and simpler to validate offline.
 - Use an external bridge only as a contingency if the SQLite addon proves unavailable in the target Godot export pipeline.
 - Model routine similarity from weighted visit frequencies and time buckets, then cluster players by a computed similarity score so recommendations can be driven by a stable profile summary instead of raw events.
+
+## Additional Design Decisions
+
+- **Authentication**: v1 must implement local credential auth (email/username + password hashing) and provide SSO adapter hooks to enable external providers. Tasks T041 and T042 implement these flows.
+- **Retention enforcement**: v1 enforces a 1-year retention policy for visit events and derived profiles. A scheduled retention job (task T043) must support purge, archive, and anonymization modes and be test-covered.
 
 ## Complexity Tracking
 
