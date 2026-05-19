@@ -32,11 +32,6 @@
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
 - [ ] T004 Define the SQLite bootstrap and schema loading entrypoint in `src/infrastructure/sqlite/schema_loader.gd`
-- [ ] T005 [P] Create repository interface contracts for players, visits, profiles, and clusters in `src/domain/repositories/player_repository.gd`, `src/domain/repositories/visit_repository.gd`, `src/domain/repositories/profile_repository.gd`, and `src/domain/repositories/cluster_repository.gd`
-- [ ] T006 [P] Create the shared domain entities and value objects in `src/domain/entities/` and `src/domain/value_objects/`
-- [ ] T007 Implement consent and location validation policies in `src/domain/services/consent_policy.gd` and `src/domain/services/location_validation.gd`
-- [ ] T008 Set up the composition root and dependency wiring in `src/presentation/autoload/app_container.gd`
-- [ ] T009 [P] Add BDD scenario scaffolding for the three stories in `tests/functional/`
  - [ ] T005 [P] Create repository interface contracts for users, visits, profiles, and groups in `src/domain/repositories/user_repository.gd`, `src/domain/repositories/visit_repository.gd`, `src/domain/repositories/profile_repository.gd`, and `src/domain/repositories/group_repository.gd`
  - [ ] T006 [P] Create the shared domain entities and value objects in `src/domain/entities/` and `src/domain/value_objects/`
  - [ ] T007 Implement consent and location validation policies in `src/domain/services/consent_policy.gd` and `src/domain/services/location_validation.gd`
@@ -136,6 +131,8 @@
  - [ ] T037 [P] Validate the SQLite addon export path and implement the fallback bridge only if addon integration is blocked in `src/infrastructure/sqlite/` and `src/application/`
  - [ ] T038 Run the validation flow from `specs/001-user-profiles-db/quickstart.md` against the Godot project
  - [ ] T043 [P] Implement retention enforcement (purge/archive/anonymize) job for 1-year policy and add unit/integration tests in `src/infrastructure/sqlite/retention_job.gd` and `tests/integration/test_retention_job.gd`
+ - [ ] T043 [P] Implement retention enforcement (purge/archive/anonymize) job for 1-year policy and add unit/integration tests in `src/infrastructure/sqlite/retention_job.gd` and `tests/integration/test_retention_job.gd`
+ - [ ] T044 Create `visits_archive` schema and migration script in `src/infrastructure/sqlite/migrations/create_visits_archive.sql` and add migration test in `tests/integration/test_migration_create_visits_archive.gd`
 
 ---
 
