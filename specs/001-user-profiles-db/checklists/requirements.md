@@ -32,3 +32,20 @@
 ## Notes
 
 - Items marked incomplete require spec updates before `/speckit.clarify` or `/speckit.plan`
+
+## Requirement Traceability Addendum
+
+- [ ] CHK001 Are the login and account data fields explicitly bounded to the minimum necessary set for registration and authentication? [Clarity, Spec §FR-001]
+- [ ] CHK002 Is the consent requirement defined clearly enough to distinguish opt-in, opt-out, and rejected-location scenarios? [Coverage, Spec §FR-007]
+- [ ] CHK003 Are location capture requirements explicit about what data is stored locally versus derived from the player routine? [Completeness, Spec §FR-002, Spec §FR-004]
+- [ ] CHK004 Are time-window and frequency-based profiling terms defined with objective grouping criteria? [Measurability, Spec §FR-004, Spec §FR-005]
+- [ ] CHK005 Does the retention requirement clearly state what happens to events and derived data after the 1-year window? [Gap, Spec §FR-008]
+- [ ] CHK006 Is the hybrid authentication requirement unambiguous about which login methods are in scope for v1? [Clarity, Spec §FR-009]
+- [ ] CHK007 Are the acceptance scenarios sufficient to cover registration, routine capture, and clustering as independently testable user journeys? [Coverage, Spec User Stories 1-3]
+- [ ] CHK008 Are the success criteria quantified in a way that allows objective verification without implementation-specific assumptions? [Measurability, Spec Success Criteria]
+- [ ] CHK009 Are edge cases for out-of-order events, future timestamps, duplicates, and empty histories explicitly called out? [Coverage, Spec Edge Cases]
+- [ ] CHK010 Do the plan and tasks preserve the Godot-first constraint, with the bridge-service fallback clearly marked as conditional? [Consistency, Plan §Summary, Tasks Phase 6]
+- [ ] CHK011 Are the data entities and relationships in the plan consistent with the domain terms used in the specification? [Consistency, Spec §Key Entities, Plan §Project Structure]
+- [ ] CHK012 Are the tasks ordered so test artifacts appear before implementation tasks for each story? [Traceability, Tasks Phases 3-5]
+- [ ] CHK013 Is the privacy boundary around local location storage and consent described without implying cloud-first collection? [Ambiguity, Spec §FR-002, Plan §Technical Context]
+- [ ] CHK014 Are recommendation-oriented grouping requirements stated without prescribing a single clustering algorithm? [Flexibility, Spec §FR-005, Plan §Phase 0 Research Outputs]
