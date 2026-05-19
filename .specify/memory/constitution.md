@@ -1,50 +1,76 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+## com relação ao estido de programação:
+- usar Behavior-Driven Development
+- usar Test-Driven Development
+- usar princípios S.O.L.I.D
+- usar Clean Architecture, dividindo em camadas, usando ports e adapters
+- usar Domain-Driven Design
+- usar Dependency Injection
+- usar Inversion of Control
+- usar Repository Pattern
+- criar testes para os requisitos e regras de negócio, não para o código ;
+- somente criar código após ter testes conforme descrito antes ;
+- antes de executar os testes deve executar compilação e/ou análise estática dos módulos de teste e código ;
+- sempre testar o código após cada alteração, refatoração, ou novo código ;
+- antes de criar testes de integração, sempre criar testes unitários com 100% de cobertura de testes ;
+- criar testes de funcionalidade sob a ótica do usuário, interagindo com a tela, operando as funcionalidades conforme um usuário, no caminho feliz, e em cada condição alternativa, como em mensagens de erro, alertas e exceptions.
 
-## Core Principles
+## estratégias
+- sempre entrevistar o usuário para entender suas necessidades e expectativas, documentar requisitos ao encontrar alguma lacuna de conhecimento ou algo não especificado ;
+- sempre que for perguntar ao usuário faça somente uma pergunta de cada vez, sobre somente um assunto de cada vez ;
+- após perguntar ao usuário aguarde a resposta, verifique se ainda existe alguma lacuna ou dúvida, e só então faça outra pergunta ;
+- sempre registre suas perguntas e as respostas do usuário em um arquivo de decisões de projeto em /docs/decisions.md ;
+- sempre escrever um plano passo-a-passo com checklist antes de implementar ou dar manutenção em qualquer funcionalidade ;
+- identificar a oportunidade de criação de agentes especializados para executar tarefas repetitivas, perguntar ao usuário se ele deseja criar um agente especializado para executar tais tarefas e documentar no arquivo docs/agents.md ;
+- sempre tente deduzir decisões em função do constitution e das especificações existentes, antes de perguntar ao usuário ;
+- o planejamento deve ser documentado em um arquivo plan.md no diretório da funcionalidade, mas deve ser detalhado, considerando fases evolutivas, testes primeiro em função dos requisitos (não do código), codificação para atender aos testes, buscar 100% de cobertura, refatorar para interfaces e desacoplamento, depois testes de integração ;
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+## Testes: você deve sempre criar testes antes de implementar qualquer funcionalidade. Os testes devem se dividir em:
+- primeiro criar o gherkin da funcionalidade, definindo o futuro usuário, o que ela vai fazer e o benefício esperado ;
+- depois criar o cenário do caminho feliz, que é o comportamento básico da funcionalidade executado com sucesso ;
+- depois cada cenário alternativo da funcionalidade, que é o comportamento da funcionalidade em caso de erro, ou interrupção (mensagens, popups, etc) ou exceção ;
+- depois criar testes unitários do frontend, descrevendo os comportamentos do frontend de cada componente ;
+- depois criar os testes de interface (frontend), descrevendo os comportamentos da interface em cada cenário ;
+- depois criar testes unitários do backend, descrevendo os comportamentos do backend em cada componente ;
+- depois criar os testes de integração do backend, descrevendo os comportamentos do backend de integração em cada cenário ;
+- depois criar testes de integração frontend com backend ;
+- ao criar testes tente não usar mocks automáticos, tente criar classes de mocks manualmente ;
+- ao criar testes unitários, sempre use a técnica AAA (Arrange, Act, Assert) ;
+- sempre configure os testes para que em seu arquivo de configuração busque atingir 100% de cobertura obrigatoriamente ;
+- configure o vitest para apresentar sempre a cobertura de testes ;
+- configure o playwright para apresentar sempre a cobertura de testes ;
+- crie um diretório de tests em paralelo de src, não salve os testes dentro de src ;
+- crie um script para testar o código fonte através de npm run check, que deve compilar todo o código ;
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+## arquitetura: preferencialmente usar
+- a linguagem typescript, mas pode usar outra linguagem se justificar ;
+- postgresql, mas pode usar outro banco de dados se justificar ;
+- ReactJs, mas pode usar outra biblioteca se justificar ;
+- vitest, mas pode usar outro framework de testes se justificar ;
+- playwright, mas pode usar outro framework de testes se justificar ;
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+## funcionamento da IA
+- sempre que for perguntar ao usuário faça somente uma pergunta de cada vez, sobre somente um assunto de cada vez ;
+- antes de planejar a parte técnica, devemos pensar nas necessidades do cliente, na visão do produto, e na especificação das funcionalidades, para depois planejar (Object Oriented Design) a arquitetura e o design do sistema, e por fim a implementação ;
+- a criação de código sempre deve ser seguida da execução de npm run check e npm run test:coverage, e só então seguir para a próxima atividade de implementação ;
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+## as Especificações (análise):
+- devem registrar o escopo sob a ótica do usuário
+- registrar a visão do produto
+- devem registrar o valor para o usuário (Feature do Gherkin)
+- devem registrar o os vários critérios de aceitação
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
-
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
-
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+## o Planejamento técnico (plan.md)
+- deve definir o passo-a-passo de implementação da funcionalidade
+- deve definir fases evolutivas
+- deve definir incrementos de comportamentos
+- deve definir pontos de checagem de funcionamento
+- deve definir atividades de implementação
+- deve definir os resultados esperados de cada atividade de implementação
+- tudo no planejamento deve ser planejado passo-a-passo (chain of thought)
+- cada ponto do planejamento deve ter um checklist de execução
+- os testes devem ser feitos sempre antes de qualquer implementação
+- os testes devem ser executados antes de dar como encerrado um incremento ou fase
+- deve definir a base de dados, os modelos, as entidades, os repositórios, 
+- deve definir os serviços, os controladores, as rotas
+- após executar qualquer atividade do planejamento, precisa marcar (check) no planejamento e/ou no roadmap
