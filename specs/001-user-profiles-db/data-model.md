@@ -53,7 +53,7 @@
 
 
 ## Validation Rules
-- A PlayerAccount must exist before VisitEvent insertion.
+- A `User` must exist before `VisitEvent` insertion.
 - A VisitEvent must reference a valid point and must be rejected if consent is missing.
 - `visited_at` cannot be null and should not drift far into the future.
 - `duration_seconds`, if present, must be non-negative.
