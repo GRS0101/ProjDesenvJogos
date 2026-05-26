@@ -79,7 +79,16 @@ O sistema agrega visitas para gerar perfis de usuário e agrupa perfis por simil
 
 *Exemplo de marcação de requisitos incertos:*
 
-- **FR-008**: Políticas de retenção de dados devem ser definidas. Período padrão: 1 ano para eventos de visita e dados derivados; regras de arquivamento e anonimização aplicam-se após esse período.
+ - **FR-008**: Políticas de retenção de dados devem ser definidas. Período padrão: 1 ano para eventos de visita e dados derivados; regras concretas abaixo.
+
+Retention policy (decisão): Archive then purge (padrão)
+
+- Default behavior: When a `VisitEvent` reaches 1 year old it MUST be moved (archived) to the `visits_archive` table; archived data is retained for an additional configurable retention window (default 1 year) after which it may be purged permanently.
+- Alternate modes: `anonymize` (instead of archive, remove/NULL PII fields and keep records) and `purge` (delete immediately). The system MUST support all modes; default is `archive` followed by `purge` after the secondary retention window.
+- Triggers and schedule: retention job MUST run on a configurable schedule (default: daily dry-run; weekly archive run; monthly purge run) and operate in safe batches with transactions. The job MUST support `--dry-run`, `--mode` and `--confirm` flags and produce an audit log of actions performed.
+- Audit requirements: Every archival/purge/anonymize operation MUST append an audit entry with `operation`, `affected_count`, `cutoff_timestamp`, `mode`, `started_at`, `completed_at`, and the initiating actor (system/cron/manual) for compliance and rollback analysis.
+
+These specifics will be reflected in `tasks.md` (T043/T044) and in the migration scripts under `src/infrastructure/sqlite/migrations/`.
 - **FR-009**: Método de autenticação: suportar credenciais locais (email/username + senha) e SSO (provedores externos). A opção híbrida permite que usuários escolham o método preferido.
 
 ### Key Entities *(include if feature involves data)*

@@ -133,6 +133,9 @@
  - [ ] T043 [P] Implement retention enforcement (purge/archive/anonymize) job for 1-year policy and add unit/integration tests in `src/infrastructure/sqlite/retention_job.gd` and `tests/integration/test_retention_job.gd`
  - [ ] T043 [P] Implement retention enforcement (purge/archive/anonymize) job for 1-year policy and add unit/integration tests in `src/infrastructure/sqlite/retention_job.gd` and `tests/integration/test_retention_job.gd`
  - [ ] T044 Create `visits_archive` schema and migration script in `src/infrastructure/sqlite/migrations/create_visits_archive.sql` and add migration test in `tests/integration/test_migration_create_visits_archive.gd`
+ - [ ] T043 [P] Implement retention enforcement job with default "archive then purge" policy: archive `VisitEvent` rows older than 1 year into `visits_archive`, retain archives an additional 1 year by default, then purge; support modes `dry-run|archive|anonymize|purge`, batch processing, `--confirm` flag, and audit logging. Implement as `src/infrastructure/sqlite/retention_job.gd` and add integration test `tests/integration/test_retention_job.gd`.
+ - [ ] T044 Create `visits_archive` schema and migration script in `src/infrastructure/sqlite/migrations/create_visits_archive.sql` and add migration test in `tests/integration/test_migration_create_visits_archive.gd`
+ - [ ] T045 Add scheduler and CI/ops documentation: default schedule (daily dry-run, weekly archive, monthly purge), configuration variables, and instructions to run manual `--confirm` purge.
 
 ---
 
