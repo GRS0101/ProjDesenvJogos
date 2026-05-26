@@ -1,0 +1,29 @@
+name: Pre-Test Check
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  pre-test-check:
+    runs-on: windows-latest
+    env:
+      GODOT_PATH: ${{ secrets.GODOT_PATH }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Run pre-test check script
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/ci/pre_test_check.ps1
+      - name: Install requirements for coverage-checker
+        run: |
+          python -m pip install --upgrade pip
+      - name: Run coverage checker
+        run: |
+          python tools/coverage-checker.py --report coverage.xml --threshold 100
