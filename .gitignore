@@ -1,0 +1,38 @@
+## OS
+.DS_Store
+Thumbs.db
+
+## Godot
+/.import/
+/.godot/
+/.mono/
+export_presets.cfg
+/.export/
+/*.import
+*.escn.import
+
+## Editor
+.vscode/
+.idea/
+
+## Python
+__pycache__/
+*.py[cod]
+
+## SQLite and DB artifacts
+*.db
+*.sqlite
+*.sqlite3
+
+## Logs and temp
+*.log
+*.tmp
+*.swp
+
+## Build outputs
+/build/
+/dist/
+
+## Secrets
+.env
+.env.*
