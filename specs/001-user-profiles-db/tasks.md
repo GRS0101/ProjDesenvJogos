@@ -127,15 +127,12 @@
 - [ ] T036 [P] Add security and privacy hardening checks for consent, retention, and local location storage in `src/domain/services/consent_policy.gd` and `src/infrastructure/sqlite/`
 - [ ] T037 [P] Validate the SQLite addon export path and implement the fallback bridge only if addon integration is blocked in `src/infrastructure/sqlite/` and `src/application/`
 - [ ] T038 Run the validation flow from `specs/001-user-profiles-db/quickstart.md` against the Godot project
- - [ ] T036 [P] Add security and privacy hardening checks for consent, retention, and local location storage in `src/domain/services/consent_policy.gd` and `src/infrastructure/sqlite/`
- - [ ] T037 [P] Validate the SQLite addon export path and implement the fallback bridge only if addon integration is blocked in `src/infrastructure/sqlite/` and `src/application/`
- - [ ] T038 Run the validation flow from `specs/001-user-profiles-db/quickstart.md` against the Godot project
  - [ ] T043 [P] Implement retention enforcement (purge/archive/anonymize) job for 1-year policy and add unit/integration tests in `src/infrastructure/sqlite/retention_job.gd` and `tests/integration/test_retention_job.gd`
- - [ ] T043 [P] Implement retention enforcement (purge/archive/anonymize) job for 1-year policy and add unit/integration tests in `src/infrastructure/sqlite/retention_job.gd` and `tests/integration/test_retention_job.gd`
- - [ ] T044 Create `visits_archive` schema and migration script in `src/infrastructure/sqlite/migrations/create_visits_archive.sql` and add migration test in `tests/integration/test_migration_create_visits_archive.gd`
- - [ ] T043 [P] Implement retention enforcement job with default "archive then purge" policy: archive `VisitEvent` rows older than 1 year into `visits_archive`, retain archives an additional 1 year by default, then purge; support modes `dry-run|archive|anonymize|purge`, batch processing, `--confirm` flag, and audit logging. Implement as `src/infrastructure/sqlite/retention_job.gd` and add integration test `tests/integration/test_retention_job.gd`.
  - [ ] T044 Create `visits_archive` schema and migration script in `src/infrastructure/sqlite/migrations/create_visits_archive.sql` and add migration test in `tests/integration/test_migration_create_visits_archive.gd`
  - [ ] T045 Add scheduler and CI/ops documentation: default schedule (daily dry-run, weekly archive, monthly purge), configuration variables, and instructions to run manual `--confirm` purge.
+ - [ ] T046 [P] Add performance and benchmark tasks: create load generator, measure P95 ingest latency, and define pass/fail thresholds in `tests/perf/` and CI workflow
+ - [ ] T047 [P] Create test fixtures and synthetic datasets for perf and clustering validation in `tests/fixtures/` (include generator script and sample datasets)
+ - [ ] T048 [P] Add compliance/legal review task: document consent model, map data elements classified as PII, and verify audit logging meets legal requirements
 
 ---
 

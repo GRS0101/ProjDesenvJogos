@@ -75,7 +75,7 @@ O sistema agrega visitas para gerar perfis de usuário e agrupa perfis por simil
 - **FR-004**: Sistema MUST agregar visitas para gerar um `user_profile` contendo: lista de `points_frequented` (com contagens), janelas de horário predominantes e métricas de atividade (ex.: visitas por semana).
 - **FR-005**: Sistema MUST executar agrupamento (clustering) de `user_profile`s por similaridade de pontos frequentados e horários, criando `profile_group` identificáveis.
 - **FR-006**: Sistema MUST registrar data e hora de criação/atualização de perfis e grupos para auditoria.
-- **FR-007**: Sistema MUST suportar consentimento do usuário para coleta de rotina e permitir opt-out (ANOTAÇÃO: ver Assumptions / Clarifications).
+ - **FR-007**: Sistema MUST suportar consentimento do usuário para coleta de rotina e permitir opt-out (ANOTAÇÃO: ver Assumptions / Clarifications). See task T048 for compliance/legal review and consent model definition.
 
 *Exemplo de marcação de requisitos incertos:*
 
@@ -110,7 +110,7 @@ These specifics will be reflected in `tasks.md` (T043/T044) and in the migration
 
 ## Assumptions
 
- - Usuários consentem implicitamente para coleta de rotina a menos que optem por remover (opt-out), salvo requisitos legais contrários.
+ - Usuários devem fornecer consentimento explícito (opt-in) para coleta de localização sensível; o sistema deve também suportar opt-out posterior e registrar todas as alterações de consentimento em um log auditável. Onde requisitos legais exigirem outro regime (por exemplo, opt-out permitido em jurisdições específicas), esse caso será documentado em `specs/001-user-profiles-db/quickstart.md` e tratado pela tarefa de compliance (T048).
  - Autenticação suportada: local (email/username + senha) e SSO externo; o sistema deve armazenar `password_hash` quando aplicável e permitir integração futura com provedores.
  - O sistema inicial precisa apenas armazenar dados necessários para registro, visitas e geração de perfis; análises avançadas são fora do escopo.
  - Retenção de dados segue política padrão do produto — por padrão usaremos 1 ano para dados de eventos (ajustável após esclarecimento).
