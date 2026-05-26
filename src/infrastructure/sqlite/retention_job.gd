@@ -66,20 +66,52 @@ func run(mode: String = "dry-run", batch_size: int = 1000, dry_run: bool = true,
     elif typeof(SQLite) != TYPE_NIL:
         db = SQLite.new()
         has_sqlite = true
+    else:
+        # Try to locate any addon under res://addons/ that contains 'sqlite' in the name and load its .gd
+        var dir = Directory.new()
+        var addons_path = "res://addons"
+        if dir.open(addons_path) == OK:
+            dir.list_dir_begin(true, false)
+            var candidate = dir.get_next()
+            while candidate != "":
+                if candidate.to_lower().find("sqlite") >= 0:
+                    var candidate_path = addons_path.plus_file(candidate)
+                    var sub = Directory.new()
+                    if sub.open(candidate_path) == OK:
+                        sub.list_dir_begin(true, false)
+                        var f = sub.get_next()
+                        while f != "":
+                            if f.ends_with('.gd'):
+                                var script_path = candidate_path.plus_file(f)
+                                var script = load(script_path)
+                                if script:
+                                    if script.has_method("new"):
+                                        db = script.new()
+                                    else:
+                                        db = script
+                                    has_sqlite = true
+                                    break
+                            f = sub.get_next()
+                        sub.list_dir_end()
+                if has_sqlite:
+                    break
+                candidate = dir.get_next()
+            dir.list_dir_end()
 
     if not has_sqlite:
         # SQLite addon not present - perform safe dry-run and return
         summary.errors.append("SQLite adapter not found; dry-run simulation only")
         return summary
 
-    # Attempt to open DB
+    # Attempt to open DB (support multiple adapter method names)
     var opened = false
-    if db.has_method("open"):
-        opened = db.open(db_path)
-    elif db.has_method("open_db"):
-        opened = db.open_db(db_path)
-    else:
-        # unknown API - try generic constructor
+    var open_methods = ["open", "open_db", "open_database", "connect", "connect_db"]
+    for m in open_methods:
+        if db.has_method(m):
+            opened = db.callv(m, [db_path])
+            break
+    if not opened:
+        # Some adapters open on construction or require no explicit open
         opened = true
 
     if not opened:
@@ -87,8 +119,25 @@ func run(mode: String = "dry-run", batch_size: int = 1000, dry_run: bool = true,
         return summary
 
     # Ensure audit table exists
+    # Ensure audit table exists using available execution method
     if db.has_method("exec"):
         _ensure_audit_table(db)
+    elif db.has_method("execute"):
+        # adaptors that use execute(sql)
+        var create_sql = """
+    CREATE TABLE IF NOT EXISTS retention_audit (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      operation TEXT,
+      affected_count INTEGER,
+      cutoff_timestamp INTEGER,
+      mode TEXT,
+      started_at INTEGER,
+      completed_at INTEGER,
+      actor TEXT,
+      details TEXT
+    );
+    """
+        db.execute(create_sql)
 
     var cutoff = _now_unix() - 365 * 24 * 3600
     var total_processed = 0
@@ -108,22 +157,47 @@ func run(mode: String = "dry-run", batch_size: int = 1000, dry_run: bool = true,
             # do not modify DB
         else:
             # perform action inside transaction
+            # perform action inside transaction using available methods
+            var begin_ok = false
             if db.has_method("exec"):
                 db.exec("BEGIN TRANSACTION;")
-                if mode == "archive":
-                    # Insert into visits_archive then delete
-                    var insert_sql = "INSERT INTO visits_archive (event_id, user_id, point_id, timestamp, duration_seconds, accuracy_meters, session_id, metadata) SELECT event_id, user_id, point_id, timestamp, duration_seconds, accuracy_meters, session_id, metadata FROM visits WHERE id IN (%s);" % csv
-                    db.exec(insert_sql)
-                    db.exec("DELETE FROM visits WHERE id IN (%s);" % csv)
-                elif mode == "anonymize":
-                    db.exec("UPDATE visits SET user_id=NULL, metadata=NULL WHERE id IN (%s);" % csv)
-                elif mode == "purge":
-                    db.exec("DELETE FROM visits WHERE id IN (%s);" % csv)
-                db.exec("COMMIT;")
-                total_processed += ids.size()
-            else:
-                summary.errors.append("DB adapter lacks exec method; cannot modify DB")
+                begin_ok = true
+            elif db.has_method("execute"):
+                db.execute("BEGIN TRANSACTION;")
+                begin_ok = true
+
+            if not begin_ok:
+                summary.errors.append("DB adapter lacks exec/execute method; cannot modify DB")
                 break
+
+            if mode == "archive":
+                var insert_sql = "INSERT INTO visits_archive (event_id, user_id, point_id, timestamp, duration_seconds, accuracy_meters, session_id, metadata) SELECT event_id, user_id, point_id, timestamp, duration_seconds, accuracy_meters, session_id, metadata FROM visits WHERE id IN (%s);" % csv
+                var delete_sql = "DELETE FROM visits WHERE id IN (%s);" % csv
+                if db.has_method("exec"):
+                    db.exec(insert_sql)
+                    db.exec(delete_sql)
+                else:
+                    db.execute(insert_sql)
+                    db.execute(delete_sql)
+            elif mode == "anonymize":
+                var anonymize_sql = "UPDATE visits SET user_id=NULL, metadata=NULL WHERE id IN (%s);" % csv
+                if db.has_method("exec"):
+                    db.exec(anonymize_sql)
+                else:
+                    db.execute(anonymize_sql)
+            elif mode == "purge":
+                var purge_sql = "DELETE FROM visits WHERE id IN (%s);" % csv
+                if db.has_method("exec"):
+                    db.exec(purge_sql)
+                else:
+                    db.execute(purge_sql)
+
+            if db.has_method("exec"):
+                db.exec("COMMIT;")
+            else:
+                db.execute("COMMIT;")
+
+            total_processed += ids.size()
 
         # small pause to avoid hogging
         OS.delay_msec(10)
